@@ -1,14 +1,14 @@
 const setup = () => {
 
-  // Variables for the user-selected cards
+
   let firstCard = undefined;
   let secondCard = undefined;
 
-  // Prevents clicks while a pair is being checked
-  let pairCheck = false;
-
-  // Counts the total number of matched pairs
+  let clicks = 0;
   let matchedPairs = 0;
+  let pairsLeft = $(".card").length / 2;
+
+  let pairCheck = false;
 
   // Flips cards and checks their values to see if they match
   $(".card").on(("click"), function () {
@@ -18,6 +18,8 @@ const setup = () => {
 
     // Flips a card if flipped
     $(this).toggleClass("flip");
+    clicks++;
+    $('#clicks').text(clicks);
 
     // If nothing is clicked, assigns the first card clicked as "firstCard"
     if (!firstCard)
@@ -31,14 +33,14 @@ const setup = () => {
       // Prevents further clicks and checks if the two cards match
       setTimeout(() => {
         // Checks if the clicked cards match
-        if (
-          firstCard.src ==
-          secondCard.src
-        ) {
+        if (firstCard.src == secondCard.src) {
           console.log("match");
           $(`#${firstCard.id}`).parent().off("click");
           $(`#${secondCard.id}`).parent().off("click");
           matchedPairs++;
+          pairsLeft--;
+          $('#pairs-matched').text(matchedPairs);
+          $('#pairs-left').text(pairsLeft);
 
           // Generates a pop-up if all the cards have been matched
           if (matchedPairs === $(".card").length / 2) {

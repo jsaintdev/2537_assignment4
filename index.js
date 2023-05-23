@@ -86,29 +86,41 @@ const startGame = async (difficulty) => {
 
   $('#game_grid').removeClass('grid-easy grid-medium grid-hard');
 
-  switch(difficulty) {
+  switch (difficulty) {
     case 'easy':
       numCards = 6;
       timeLimit = 30;
-      gridSize = {width: "600px", height: "400px"};
+      gridSize = {
+        width: "600px",
+        height: "400px"
+      };
       $('#game_grid').addClass('grid-easy');
       break;
     case 'medium':
       numCards = 12;
       timeLimit = 60;
-      gridSize = {width: "800px", height: "600px"};
+      gridSize = {
+        width: "800px",
+        height: "600px"
+      };
       $('#game_grid').addClass('grid-medium');
       break;
     case 'hard':
       numCards = 24;
       timeLimit = 90;
-      gridSize = {width: "1200px", height: "800px"};
+      gridSize = {
+        width: "1200px",
+        height: "800px"
+      };
       $('#game_grid').addClass('grid-hard');
       break;
     default:
       numCards = 6;
       timeLimit = 30;
-      gridSize = {width: "600px", height: "400px"};
+      gridSize = {
+        width: "600px",
+        height: "400px"
+      };
       $('#game_grid').addClass('grid-easy');
   }
 
@@ -204,4 +216,30 @@ $(document).ready(function () {
     $('#game_grid').empty();
     setup();
   });
+
+  $('.btn-success').on('click', function () {
+    $('#game_grid').css('background-color', 'green');
+    $('#game_grid img').css('background-color', 'green');
+  });
+
+  $('.btn-danger').on('click', function () {
+    $('#game_grid').css('background-color', 'red');
+    $('#game_grid img').css('background-color', 'red');
+  });
+
+  $('.btn-warning').on('click', function () {
+    $('#game_grid').css('background-color', 'yellow');
+    $('#game_grid img').css('background-color', 'yellow');
+  });
+
+  $('.btn-light').on('click', function () {
+    $('#game_grid').css('background-color', 'white');
+    $('#game_grid img').css('background-color', 'white');
+  });
+
+  $('.btn-dark').on('click', function () {
+    $('#game_grid').css('background-color', 'black');
+    $('#game_grid img').css('background-color', 'black');
+  });
+
 });

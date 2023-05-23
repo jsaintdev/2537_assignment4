@@ -60,9 +60,17 @@
     <div id="stats" class="hidden">
 
         <div id="controls">
-            <button class="btn btn-primary" id="reset-button">Reset Game</button>
+            <p>Select a theme:</p>
+            <div id="theme">
+                <button type="button" class="btn btn-success">Bulbasaur</button>
+                <button type="button" class="btn btn-primary">Squirtle</button>
+                <button type="button" class="btn btn-danger">Charmander</button>
+                <button type="button" class="btn btn-warning">Pikachu</button>
+                <button type="button" class="btn btn-light">Light</button>
+                <button type="button" class="btn btn-dark">Dark</button>
+            </div>
         </div>
-        
+
         <div id="stats_grid">
             <div>
                 <p>Total Pairs: <span id="total-pairs">3</span></p>
@@ -74,6 +82,8 @@
                 <p>Time: <span id="timer">0</span></p>
                 <p><b>Time Remaining: <span id="time-remaining">0</span></b></p>
             </div>
+
+            <button class="btn btn-secondary" id="reset-button">RESET GAME</button>
         </div>
 
     </div>

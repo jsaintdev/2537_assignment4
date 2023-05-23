@@ -32,9 +32,16 @@ h3 {
 }
 
 #controls {
+  border: 2px grey;
   width: 600px;
   margin: auto;
   text-align: center;
+}
+
+#theme {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 10px;
 }
 
 #game_grid {
@@ -61,10 +68,12 @@ h3 {
   transition: transform 1s;
   perspective: 1000px;
   transform-style: preserve-3d;
+  border: none;
 }
 
 img {
   width: 100%;
+  border: none;
 }
 
 .front_face,

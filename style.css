@@ -33,8 +33,6 @@ h1, h3 {
 
 #game_grid {
   border: 2px tomato solid;
-  width: 600px;
-  height: 400px;
   margin: auto;
   display: flex;
   flex-wrap: wrap;

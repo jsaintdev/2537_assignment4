@@ -77,28 +77,77 @@ const setup = () => {
   });
 }
 
-const startGame = () => {
+const startGame = (difficulty) => {
+  let numCards;
+  let timeLimit;
+  let gridSize;
+
+  switch(difficulty) {
+    case 'easy':
+      numCards = 6;
+      timeLimit = 30;
+      gridSize = {width: "600px", height: "400px"};
+      break;
+    case 'medium':
+      numCards = 12;
+      timeLimit = 60;
+      gridSize = {width: "800px", height: "600px"};
+      break;
+    case 'hard':
+      numCards = 24;
+      timeLimit = 90;
+      gridSize = {width: "1200px", height: "800px"};
+      break;
+    default:
+      numCards = 6;
+      timeLimit = 30;
+      gridSize = {width: "600px", height: "400px"};
+  }
+
+  $('#game_grid').css(gridSize);
+  generateCards(numCards);
+
   $('.hidden').show();
   setup();
   time = 0;
   timer = setInterval(() => {
     time++;
     $('#timer').text(time);
-    if (time >= 30) {
+    if (time >= timeLimit) {
       clearInterval(timer);
+      $('.card').off('click');
       alert("Time's up!");
     }
   }, 1000);
 }
 
+const generateCards = (numCards) => {
+  let gameGrid = $('#game_grid');
+  gameGrid.empty();
+  for (let i = 0; i < numCards / 2; i++) {
+    let cardTemplate = 
+    `<div class="card">
+      <img id="img${i}a" class="front_face" src="${i}.png" alt="">
+      <img class="back_face" src="back.webp" alt="">
+    </div>
+    <div class="card">
+      <img id="img${i}b" class="front_face" src="${i}.png" alt="">
+      <img class="back_face" src="back.webp" alt="">
+    </div>`
+  gameGrid.append(cardTemplate);;
+  }
+}
+
 $(document).ready(function () {
   $('#start-button').on('click', function () {
     $('#menu').hide();
-
+    $('.hidden').show();
+    let difficulty = $("input[name='difficulty']:checked").val();
     time = 0;
     $('#timer').text(time);
     clearInterval(timer);
-    startGame();
+    startGame(difficulty);
+
   });
 
   $('#reset-button').on('click', function () {
@@ -106,5 +155,5 @@ $(document).ready(function () {
     $('.hidden').hide();
     clearInterval(timer);
     setup();
-  }); 
+  });
 });

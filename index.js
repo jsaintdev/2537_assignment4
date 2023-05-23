@@ -6,78 +6,113 @@ let secondCard = undefined;
 let clicks = 0;
 let matchedPairs = 0;
 let pairsLeft;
+let powerUpChance = 0;
 
 let pairCheck = false;
 
-const setup = async () => {
-
-
+const setup = () => {
   firstCard = undefined;
   secondCard = undefined;
   clicks = 0;
   matchedPairs = 0;
   pairsLeft = $(".card").length / 2;
   pairCheck = false;
+  powerUpChance = 0;
 
   $('#clicks').text(clicks);
   $('#pairs-matched').text(matchedPairs);
   $('#pairs-left').text(pairsLeft);
-  $('.card').removeClass('flip').off('click');
+  $('.card').removeClass('flip').off('click').removeClass('matched');
   $('#time-remaining').text(0);
 
-  // Flips cards and checks their values to see if they match
-  $(".card").on(("click"), function () {
+  rebindClickHandler();
+};
 
-    // Prevents clicking if two cards are already being matched
-    if (pairCheck) return;
 
-    // Flips a card if flipped
-    $(this).toggleClass("flip");
-    clicks++;
-    $('#clicks').text(clicks);
+const clickHandler = function () {
+  // Prevents clicking if two cards are already being matched
+  if (pairCheck) return;
 
-    // If nothing is clicked, assigns the first card clicked as "firstCard"
-    if (!firstCard)
-      firstCard = $(this).find(".front_face")[0]
-    // If firstCard already exists, assigns the next card clicked as "secondCard"
-    else {
-      secondCard = $(this).find(".front_face")[0]
-      console.log(firstCard, secondCard);
-      pairCheck = true;
+  // Flips a card if flipped
+  $(this).toggleClass("flip");
+  clicks++;
+  $('#clicks').text(clicks);
 
-      // Prevents further clicks and checks if the two cards match
-      setTimeout(() => {
-        // Checks if the clicked cards match
-        if (firstCard.src == secondCard.src) {
-          console.log("match");
-          $(`#${firstCard.id}`).parent().off("click");
-          $(`#${secondCard.id}`).parent().off("click");
-          matchedPairs++;
-          pairsLeft--;
-          $('#pairs-matched').text(matchedPairs);
-          $('#pairs-left').text(pairsLeft);
+  // If nothing is clicked, assigns the first card clicked as "firstCard"
+  if (!firstCard)
+    firstCard = $(this).find(".front_face")[0];
+  // If firstCard already exists, assigns the next card clicked as "secondCard"
+  else {
+    secondCard = $(this).find(".front_face")[0];
+    console.log(firstCard, secondCard);
+    pairCheck = true;
 
-          // Generates a pop-up if all the cards have been matched
-          if (matchedPairs === $(".card").length / 2) {
-            setTimeout(() => {
-              alert("Congratulations! You matched all the pairs in " + time + " seconds.");
-            }, 500);
-            clearInterval(timer);
-          }
+    // Prevents further clicks and checks if the two cards match
+    setTimeout(() => {
+      // Checks if the clicked cards match
+      if (firstCard.src == secondCard.src) {
+        console.log("match");
+        $(`#${firstCard.id}`).closest('.card').addClass('matched').off("click");
+        $(`#${secondCard.id}`).closest('.card').addClass('matched').off("click");
+        matchedPairs++;
+        pairsLeft--;
+        $('#pairs-matched').text(matchedPairs);
+        $('#pairs-left').text(pairsLeft);
 
-          // Flips the cards back if they do not match and resets the variables
-        } else {
-          console.log("no match");
-          $(`#${firstCard.id}`).parent().toggleClass("flip");
-          $(`#${secondCard.id}`).parent().toggleClass("flip");
+
+        // Generates a pop-up if all the cards have been matched
+        if (matchedPairs === $(".card").length / 2) {
+          setTimeout(() => {
+            alert("Congratulations! You matched all the pairs in " + time + " seconds.");
+          }, 500);
+          clearInterval(timer);
         }
-        firstCard = undefined;
-        secondCard = undefined;
-        pairCheck = false;
-      }, 1000);
-    }
-  });
-}
+
+        // Flips the cards back if they do not match and resets the variables
+      } else {
+        console.log("no match");
+        $(`#${firstCard.id}`).parent().toggleClass("flip");
+        $(`#${secondCard.id}`).parent().toggleClass("flip");
+
+        // Increase chance for power-up every two clicks
+        if (clicks % 2 == 0 && powerUpChance < 0.4) {
+          powerUpChance += 0.1;
+        }
+
+        // Power-up event
+        if (Math.random() < powerUpChance) {
+          powerUpChance = 0; // Reset the chance after power-up
+
+          // Ensure that matched cards do not respond to the power-up event
+          $('.card').each(function () {
+            if (!$(this).hasClass('matched')) {
+              $(this).addClass('flip');
+            }
+          });
+
+          alert("Power-up activated!");
+
+          setTimeout(() => {
+            // Ensure that matched cards do not respond to the power-up event
+            $('.card').each(function () {
+              if (!$(this).hasClass('matched')) {
+                $(this).removeClass('flip');
+              }
+            });
+            rebindClickHandler();
+          }, 1000);
+        }
+      }
+      firstCard = undefined;
+      secondCard = undefined;
+      pairCheck = false;
+    }, 1000);
+  }
+};
+
+const rebindClickHandler = () => {
+  $(".card").off('click').on("click", clickHandler);
+};
 
 const startGame = async (difficulty) => {
   let numCards;

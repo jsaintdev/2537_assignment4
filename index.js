@@ -42,12 +42,12 @@ const clickHandler = function () {
   $('#clicks').text(clicks);
 
   // If nothing is clicked, assigns the first card clicked as "firstCard"
-  if (!firstCard)
+  if (!firstCard) {
     firstCard = $(this).find(".front_face")[0];
   // unbind click handler for firstCard
   $(this).off("click");
   // If firstCard already exists, assigns the next card clicked as "secondCard"
-  else {
+  } else {
     secondCard = $(this).find(".front_face")[0];
     console.log(firstCard, secondCard);
     pairCheck = true;

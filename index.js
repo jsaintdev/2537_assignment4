@@ -76,7 +76,7 @@ const clickHandler = function () {
 
         // Increase chance for power-up every two clicks
         if (clicks % 2 == 0 && powerUpChance < 0.4) {
-          powerUpChance += 0.1;
+          powerUpChance += 0.05;
         }
 
         // Power-up event

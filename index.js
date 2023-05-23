@@ -33,6 +33,9 @@ const clickHandler = function () {
   // Prevents clicking if two cards are already being matched
   if (pairCheck) return;
 
+  // Check if card is already flipped
+  if ($(this).hasClass('flip')) return;
+
   // Flips a card if flipped
   $(this).toggleClass("flip");
   clicks++;
@@ -41,6 +44,8 @@ const clickHandler = function () {
   // If nothing is clicked, assigns the first card clicked as "firstCard"
   if (!firstCard)
     firstCard = $(this).find(".front_face")[0];
+  // unbind click handler for firstCard
+  $(this).off("click");
   // If firstCard already exists, assigns the next card clicked as "secondCard"
   else {
     secondCard = $(this).find(".front_face")[0];
@@ -73,6 +78,9 @@ const clickHandler = function () {
         console.log("no match");
         $(`#${firstCard.id}`).parent().toggleClass("flip");
         $(`#${secondCard.id}`).parent().toggleClass("flip");
+
+        // Rebind click handler for firstCard
+        $(`#${firstCard.id}`).closest('.card').on("click", clickHandler);
 
         // Increase chance for power-up every two clicks
         if (clicks % 2 == 0 && powerUpChance < 0.4) {
@@ -257,7 +265,7 @@ $(document).ready(function () {
     $('#game_grid img').css('background-color', 'green');
   });
 
-  
+
   $('.btn-info').on('click', function () {
     $('#game_grid').css('background-color', 'blue');
     $('#game_grid img').css('background-color', 'blue');

@@ -249,7 +249,8 @@ $(document).ready(function () {
     $('#timer').text(time);
     clearInterval(timer);
     startGame(difficulty);
-
+    $('#game_grid').css('background-color', 'white');
+    $('#game_grid img').css('background-color', 'white');
   });
 
   $('#reset-button').on('click', function () {

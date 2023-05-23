@@ -257,6 +257,12 @@ $(document).ready(function () {
     $('#game_grid img').css('background-color', 'green');
   });
 
+  
+  $('.btn-info').on('click', function () {
+    $('#game_grid').css('background-color', 'blue');
+    $('#game_grid img').css('background-color', 'blue');
+  });
+
   $('.btn-danger').on('click', function () {
     $('#game_grid').css('background-color', 'red');
     $('#game_grid img').css('background-color', 'red');

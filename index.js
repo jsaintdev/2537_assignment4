@@ -9,7 +9,8 @@ let pairsLeft;
 
 let pairCheck = false;
 
-const setup = () => {
+const setup = async () => {
+
 
   firstCard = undefined;
   secondCard = undefined;
@@ -77,35 +78,43 @@ const setup = () => {
   });
 }
 
-const startGame = (difficulty) => {
+const startGame = async (difficulty) => {
   let numCards;
   let timeLimit;
   let gridSize;
+
+  $('#game_grid').removeClass('grid-easy grid-medium grid-hard');
 
   switch(difficulty) {
     case 'easy':
       numCards = 6;
       timeLimit = 30;
       gridSize = {width: "600px", height: "400px"};
+      $('#game_grid').addClass('grid-easy');
       break;
     case 'medium':
       numCards = 12;
       timeLimit = 60;
       gridSize = {width: "800px", height: "600px"};
+      $('#game_grid').addClass('grid-medium');
       break;
     case 'hard':
       numCards = 24;
       timeLimit = 90;
       gridSize = {width: "1200px", height: "800px"};
+      $('#game_grid').addClass('grid-hard');
       break;
     default:
       numCards = 6;
       timeLimit = 30;
       gridSize = {width: "600px", height: "400px"};
+      $('#game_grid').addClass('grid-easy');
   }
 
   $('#game_grid').css(gridSize);
-  generateCards(numCards);
+
+  let pokemonData = await getPokemonData(numCards);
+  generateCards(pokemonData);
 
   $('.hidden').show();
   setup();
@@ -121,22 +130,55 @@ const startGame = (difficulty) => {
   }, 1000);
 }
 
-const generateCards = (numCards) => {
+const getPokemonData = async (numCards) => {
+  let pokemonData = [];
+  let ids = new Set();
+  while (pokemonData.length < numCards) {
+    let id = Math.floor(Math.random() * 649) + 1;
+    if (!ids.has(id)) {
+      ids.add(id);
+      try {
+        let res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        if (res.data.sprites.other['official-artwork'].front_default) {
+          pokemonData.push(res.data.sprites.other['official-artwork'].front_default);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+  return pokemonData;
+}
+
+
+const generateCards = (pokemonData) => {
+
+  let cardArray = [];
+  for (let i = 0; i < pokemonData.length / 2; i++) {
+    cardArray.push(
+      `<div class="card">
+        <img id="img${i}a" class="front_face" src="${pokemonData[i]}" alt="">
+        <img class="back_face" src="back.webp" alt="">
+      </div>`,
+      `<div class="card">
+        <img id="img${i}b" class="front_face" src="${pokemonData[i]}" alt="">
+        <img class="back_face" src="back.webp" alt="">
+      </div>`
+    );
+  }
+
+  for (let i = cardArray.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [cardArray[i], cardArray[j]] = [cardArray[j], cardArray[i]];
+  }
+
   let gameGrid = $('#game_grid');
   gameGrid.empty();
-  for (let i = 0; i < numCards / 2; i++) {
-    let cardTemplate = 
-    `<div class="card">
-      <img id="img${i}a" class="front_face" src="${i}.png" alt="">
-      <img class="back_face" src="back.webp" alt="">
-    </div>
-    <div class="card">
-      <img id="img${i}b" class="front_face" src="${i}.png" alt="">
-      <img class="back_face" src="back.webp" alt="">
-    </div>`
-  gameGrid.append(cardTemplate);;
+  for (let i = 0; i < cardArray.length; i++) {
+    gameGrid.append(cardArray[i]);
   }
 }
+
 
 $(document).ready(function () {
   $('#start-button').on('click', function () {
@@ -154,6 +196,7 @@ $(document).ready(function () {
     $('#menu').show();
     $('.hidden').hide();
     clearInterval(timer);
+    $('#game_grid').empty();
     setup();
   });
 });

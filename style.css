@@ -4,13 +4,29 @@ body {
   margin: 0px;
 }
 
+header {
+  width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
 h1, h3 {
   font-family: 'Fredoka One', cursive;
 }
 
+.hidden {
+  display: none;
+}
+
 #stats {
   width: 600px;
-  height: 250px;
+  margin: auto;
+  text-align: center;
+
+}
+
+#controls{
+  width: 600px;
   margin: auto;
   text-align: center;
 }

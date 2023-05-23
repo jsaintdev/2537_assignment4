@@ -1,14 +1,27 @@
+let timer;
+let time = 0;
+
+let firstCard = undefined;
+let secondCard = undefined;
+let clicks = 0;
+let matchedPairs = 0;
+let pairsLeft;
+
+let pairCheck = false;
+
 const setup = () => {
 
+  firstCard = undefined;
+  secondCard = undefined;
+  clicks = 0;
+  matchedPairs = 0;
+  pairsLeft = $(".card").length / 2;
+  pairCheck = false;
 
-  let firstCard = undefined;
-  let secondCard = undefined;
-
-  let clicks = 0;
-  let matchedPairs = 0;
-  let pairsLeft = $(".card").length / 2;
-
-  let pairCheck = false;
+  $('#clicks').text(clicks);
+  $('#pairs-matched').text(matchedPairs);
+  $('#pairs-left').text(pairsLeft);
+  $('.card').removeClass('flip').off('click');
 
   // Flips cards and checks their values to see if they match
   $(".card").on(("click"), function () {
@@ -45,9 +58,10 @@ const setup = () => {
           // Generates a pop-up if all the cards have been matched
           if (matchedPairs === $(".card").length / 2) {
             setTimeout(() => {
-              alert("Congratulations! You matched all the pairs.");
+              alert("Congratulations! You matched all the pairs in " + time + " seconds.");
             }, 500);
-          }          
+            clearInterval(timer);
+          }
 
           // Flips the cards back if they do not match and resets the variables
         } else {
@@ -63,4 +77,34 @@ const setup = () => {
   });
 }
 
-$(document).ready(setup)
+const startGame = () => {
+  $('.hidden').show();
+  setup();
+  time = 0;
+  timer = setInterval(() => {
+    time++;
+    $('#timer').text(time);
+    if (time >= 30) {
+      clearInterval(timer);
+      alert("Time's up!");
+    }
+  }, 1000);
+}
+
+$(document).ready(function () {
+  $('#start-button').on('click', function () {
+    $('#menu').hide();
+
+    time = 0;
+    $('#timer').text(time);
+    clearInterval(timer);
+    startGame();
+  });
+
+  $('#reset-button').on('click', function () {
+    $('#menu').show();
+    $('.hidden').hide();
+    clearInterval(timer);
+    setup();
+  }); 
+});

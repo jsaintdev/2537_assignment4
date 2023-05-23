@@ -13,39 +13,55 @@
 
 <body>
 
-    <div id="stats">
+    <header>
         <h1>Gotta Match 'em All!</h1>
         <h3>Match all the Pokemon to win!</h3>
-        <p>Clicks: <span id="clicks">0</span></p>
+    </header>
+
+    <div id="menu">
+        <div id="controls">
+            <button id="start-button">Start Game</button>
+        </div>
+    </div>
+
+    <div id="stats" class="hidden">
         <p>Pairs Left: <span id="pairs-left">3</span></p>
         <p>Pairs Matched: <span id="pairs-matched">0</span></p>
         <p>Total Pairs: <span id="total-pairs">3</span></p>
+        <p>Clicks: <span id="clicks">0</span></p>
+        <p>Time: <span id="timer">0</span></p>
+
+        <div id="controls">
+            <button id="reset-button">Reset Game</button>
+        </div>
     </div>
 
-    <div id="game_grid">
-        <div class="card">
-            <img id="img1" class="front_face" src="001.png" alt="">
-            <img class="back_face" src="back.webp" alt="">
-        </div>
-        <div class="card">
-            <img id="img2" class="front_face" src="002.png" alt="">
-            <img class="back_face" src="back.webp" alt="">
-        </div>
-        <div class="card">
-            <img id="img3" class="front_face" src="003.png" alt="">
-            <img class="back_face" src="back.webp" alt="">
-        </div>
-        <div class="card">
-            <img id="img4" class="front_face" src="001.png" alt="">
-            <img class="back_face" src="back.webp" alt="">
-        </div>
-        <div class="card">
-            <img id="img5" class="front_face" src="002.png" alt="">
-            <img class="back_face" src="back.webp" alt="">
-        </div>
-        <div class="card">
-            <img id="img6" class="front_face" src="003.png" alt="">
-            <img class="back_face" src="back.webp" alt="">
+    <div class="hidden">
+        <div id="game_grid">
+            <div class="card">
+                <img id="img1" class="front_face" src="001.png" alt="">
+                <img class="back_face" src="back.webp" alt="">
+            </div>
+            <div class="card">
+                <img id="img2" class="front_face" src="002.png" alt="">
+                <img class="back_face" src="back.webp" alt="">
+            </div>
+            <div class="card">
+                <img id="img3" class="front_face" src="003.png" alt="">
+                <img class="back_face" src="back.webp" alt="">
+            </div>
+            <div class="card">
+                <img id="img4" class="front_face" src="001.png" alt="">
+                <img class="back_face" src="back.webp" alt="">
+            </div>
+            <div class="card">
+                <img id="img5" class="front_face" src="002.png" alt="">
+                <img class="back_face" src="back.webp" alt="">
+            </div>
+            <div class="card">
+                <img id="img6" class="front_face" src="003.png" alt="">
+                <img class="back_face" src="back.webp" alt="">
+            </div>
         </div>
     </div>
 

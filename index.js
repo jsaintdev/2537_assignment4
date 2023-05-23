@@ -23,6 +23,7 @@ const setup = async () => {
   $('#pairs-matched').text(matchedPairs);
   $('#pairs-left').text(pairsLeft);
   $('.card').removeClass('flip').off('click');
+  $('#time-remaining').text(0);
 
   // Flips cards and checks their values to see if they match
   $(".card").on(("click"), function () {
@@ -111,6 +112,9 @@ const startGame = async (difficulty) => {
       $('#game_grid').addClass('grid-easy');
   }
 
+  $('#total-pairs').text(numCards / 2);
+  $('#time-remaining').text(timeLimit);
+
   $('#game_grid').css(gridSize);
 
   let pokemonData = await getPokemonData(numCards);
@@ -122,6 +126,7 @@ const startGame = async (difficulty) => {
   timer = setInterval(() => {
     time++;
     $('#timer').text(time);
+    $('#time-remaining').text(timeLimit - time);
     if (time >= timeLimit) {
       clearInterval(timer);
       $('.card').off('click');

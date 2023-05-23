@@ -50,20 +50,32 @@
                 <input type="radio" id="hard" name="difficulty" value="hard">
                 <label for="hard">Hard</label>
             </div>
-            <button id="start-button">Start Game</button>
+            <div id="difficulty-info">
+
+            </div>
+            <button class="btn btn-primary" id="start-button">Start Game</button>
         </div>
     </div>
 
     <div id="stats" class="hidden">
-        <p>Pairs Left: <span id="pairs-left">3</span></p>
-        <p>Pairs Matched: <span id="pairs-matched">0</span></p>
-        <p>Total Pairs: <span id="total-pairs">3</span></p>
-        <p>Clicks: <span id="clicks">0</span></p>
-        <p>Time: <span id="timer">0</span></p>
 
         <div id="controls">
-            <button id="reset-button">Reset Game</button>
+            <button class="btn btn-primary" id="reset-button">Reset Game</button>
         </div>
+        
+        <div id="stats_grid">
+            <div>
+                <p>Total Pairs: <span id="total-pairs">3</span></p>
+                <p>Pairs Left: <span id="pairs-left">3</span></p>
+                <p><b>Pairs Matched: <span id="pairs-matched">0</span></b></p>
+            </div>
+            <div>
+                <p>Clicks: <span id="clicks">0</span></p>
+                <p>Time: <span id="timer">0</span></p>
+                <p><b>Time Remaining: <span id="time-remaining">0</span></b></p>
+            </div>
+        </div>
+
     </div>
 
     <div class="hidden">
